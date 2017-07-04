@@ -242,9 +242,7 @@ class RouterDriver(object):
 
     def make_shot(self):
         if self.software_only: 
-            print "Making a shot: %d" % (self)
-            sleep(20)
-            print "Done" 
+            print "Making a shot: %d" % (self) 
             return True
         self._send_packet32(0, PACKET_TICK_DISPENSE, 90)
         return True
@@ -278,6 +276,8 @@ class RouterDriver(object):
     def dispense_ticks(self, dispenser, ticks, speed=255):
         if self.software_only: 
             print "Ticks: %d for %d" % (dispenser, ticks)
+            sleep(20)
+            print "Done" 
             return True
         ret = self._send_packet16(dispenser, PACKET_TICK_SPEED_DISPENSE, ticks, speed)
 
