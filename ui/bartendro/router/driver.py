@@ -269,7 +269,7 @@ class RouterDriver(object):
 
     def dispense_time(self, dispenser, duration):
         if self.software_only:
-             print "Duration: %d for %d" % (dispenser, duration)
+            print "Duration: %d for %d" % (dispenser, duration)
             return True
         return self._send_packet32(dispenser, PACKET_TIME_DISPENSE, duration)
 
