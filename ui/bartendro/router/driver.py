@@ -77,6 +77,8 @@ MOTOR_DIRECTION_BACKWARD        = 0
 
 log = logging.getLogger('bartendro')
 
+client = opc.Client('localhost:7890')
+
 def crc16_update(crc, a):
     crc ^= a
     for i in xrange(0, 8):
@@ -110,7 +112,7 @@ class RouterDriver(object):
         if software_only:
             self.num_dispensers = MAX_DISPENSERS
             numLEDs = MAX_DISPENSERS
-            client = opc.Client('localhost:7890')
+            
         else:
             self.num_dispensers = 0 
 
