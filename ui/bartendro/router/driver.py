@@ -15,7 +15,7 @@ DISPENSER_DEFAULT_VERSION = 2
 DISPENSER_DEFAULT_VERSION_SOFTWARE_ONLY = 3
 
 BAUD_RATE       = 9600
-DEFAULT_TIMEOUT = 2 # in seconds
+DEFAULT_TIMEOUT = 10 # in seconds
 
 MAX_DISPENSERS = 9
 SHOT_TICKS     = 20
@@ -243,6 +243,7 @@ class RouterDriver(object):
     def make_shot(self):
         if self.software_only: 
             print "Making a shot: %d" % (self)
+            sleep(5)
             return True
         self._send_packet32(0, PACKET_TICK_DISPENSE, 90)
         return True
