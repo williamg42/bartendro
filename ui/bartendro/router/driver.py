@@ -21,6 +21,8 @@ DEFAULT_TIMEOUT = 30 # in seconds
 MAX_DISPENSERS = 9
 SHOT_TICKS     = 20
 
+numLEDs = 0
+
 RAW_PACKET_SIZE      = 10
 PACKET_SIZE          =  8
 
