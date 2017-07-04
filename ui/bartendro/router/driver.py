@@ -243,7 +243,7 @@ class RouterDriver(object):
     def make_shot(self):
         if self.software_only: 
             print "Making a shot: %d" % (self)
-             time.sleep(5);
+            time.sleep(5);
             return True
         self._send_packet32(0, PACKET_TICK_DISPENSE, 90)
         return True
