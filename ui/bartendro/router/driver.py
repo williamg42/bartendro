@@ -286,9 +286,13 @@ class RouterDriver(object):
             black = [ (0,0,0) ] * 512
 	    white = [ (255,255,255) ] * 512
 
-	    print client.put_pixels(white)
-            sleep(ticks/10)
-	    print client.put_pixels(black)
+	    client.put_pixels(black)
+	    client.put_pixels(black)
+	    time.sleep(0.5)
+	    client.put_pixels(white)
+            time.sleep(ticks/10)
+	    client.put_pixels(black)
+	    client.put_pixels(black)
             print "Done" 
             return True
         ret = self._send_packet16(dispenser, PACKET_TICK_SPEED_DISPENSE, ticks, speed)
