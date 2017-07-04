@@ -17,7 +17,7 @@ DISPENSER_DEFAULT_VERSION_SOFTWARE_ONLY = 3
 BAUD_RATE       = 9600
 DEFAULT_TIMEOUT = 2 # in seconds
 
-MAX_DISPENSERS = 15
+MAX_DISPENSERS = 9
 SHOT_TICKS     = 20
 
 RAW_PACKET_SIZE      = 10
@@ -241,7 +241,9 @@ class RouterDriver(object):
             pass
 
     def make_shot(self):
-        if self.software_only: return True
+        if self.software_only: 
+            print "Making a shot: %d" % (self)
+            return True
         self._send_packet32(0, PACKET_TICK_DISPENSE, 90)
         return True
 
@@ -250,7 +252,9 @@ class RouterDriver(object):
         return self._send_packet32(dispenser, PACKET_PING, 0)
 
     def start(self, dispenser):
-        if self.software_only: return True
+        if self.software_only: 
+            print "Starting: %d" % (dispenser)
+            return True
         return self._send_packet8(dispenser, PACKET_SET_MOTOR_SPEED, 255, True)
 
     def set_motor_direction(self, dispenser, direction):
@@ -258,15 +262,21 @@ class RouterDriver(object):
         return self._send_packet8(dispenser, PACKET_SET_MOTOR_DIRECTION, direction)
 
     def stop(self, dispenser):
-        if self.software_only: return True
+        if self.software_only: 
+            print "Stopping: %d" % (dispenser)
+            return True
         return self._send_packet8(dispenser, PACKET_SET_MOTOR_SPEED, 0)
 
     def dispense_time(self, dispenser, duration):
-        if self.software_only: return True
+        if self.software_only:
+             print "Duration: %d for %d" % (dispenser, duration)
+            return True
         return self._send_packet32(dispenser, PACKET_TIME_DISPENSE, duration)
 
     def dispense_ticks(self, dispenser, ticks, speed=255):
-        if self.software_only: return True
+        if self.software_only: 
+            print "Ticks: %d for %d" % (dispenser, ticks)
+            return True
         ret = self._send_packet16(dispenser, PACKET_TICK_SPEED_DISPENSE, ticks, speed)
 
         # if it fails, re-try once.
@@ -277,7 +287,9 @@ class RouterDriver(object):
         return ret
 
     def led_off(self):
-        if self.software_only: return True
+        if self.software_only: 
+            
+            return True
         self._sync(0)
         self._send_packet8(DEST_BROADCAST, PACKET_LED_OFF, 0)
         return True
