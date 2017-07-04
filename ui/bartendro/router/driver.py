@@ -77,7 +77,7 @@ MOTOR_DIRECTION_BACKWARD        = 0
 
 log = logging.getLogger('bartendro')
 
-client = opc.Client('localhost:7890')
+client = opc.Client('localhost:7890', false, true)
 
 def crc16_update(crc, a):
     crc ^= a
