@@ -288,9 +288,9 @@ class RouterDriver(object):
 
 	    client.put_pixels(black)
 	    client.put_pixels(black)
-	    time.sleep(0.5)
+	    sleep(0.5)
 	    client.put_pixels(white)
-            time.sleep(ticks/10)
+            sleep(ticks/10)
 	    client.put_pixels(black)
 	    client.put_pixels(black)
             print "Done" 
