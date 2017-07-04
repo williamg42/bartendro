@@ -284,7 +284,7 @@ class RouterDriver(object):
         if self.software_only: 
             print "Ticks: %d for %d" % (dispenser, ticks)
             pixels = [ (255,255,255) ] * numLEDs
-	    client.put_pixels(pixels,0)
+	    print client.put_pixels(pixels,0)
             sleep(ticks/20)
             print "Done" 
             return True
