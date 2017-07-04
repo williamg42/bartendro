@@ -285,13 +285,13 @@ class RouterDriver(object):
             print "Ticks: %d for %d" % (dispenser, ticks)
             black = [ (0,0,0) ] * numLEDs
 	    pixels = [ (0,0,0) ] * numLEDs
-	    pixels[dispenser] = (255, 255, 255)
+	    pixels[dispenser] = (0, 0, 255)
 
 	    client.put_pixels(black)
 	    client.put_pixels(black)
 	    sleep(0.001)
 	    client.put_pixels(pixels)
-            sleep(ticks/10)
+            sleep(ticks/30)
 	    client.put_pixels(black)
 	    client.put_pixels(black)
             print "Done" 
