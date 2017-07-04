@@ -1,5 +1,6 @@
 import sys
 import os
+import opc
 import collections
 import logging
 from subprocess import call
@@ -106,6 +107,8 @@ class RouterDriver(object):
 
         if software_only:
             self.num_dispensers = MAX_DISPENSERS
+            numLEDs = MAX_DISPENSERS
+            client = opc.Client('localhost:7890')
         else:
             self.num_dispensers = 0 
 
@@ -276,7 +279,10 @@ class RouterDriver(object):
     def dispense_ticks(self, dispenser, ticks, speed=255):
         if self.software_only: 
             print "Ticks: %d for %d" % (dispenser, ticks)
-            sleep(20)
+            pixels = [ (0,0,0) ] * numLEDs
+		    pixels[dispenser] = (255, 255, 255)
+		    client.put_pixels(pixels)
+            sleep(ticks/83)
             print "Done" 
             return True
         ret = self._send_packet16(dispenser, PACKET_TICK_SPEED_DISPENSE, ticks, speed)
