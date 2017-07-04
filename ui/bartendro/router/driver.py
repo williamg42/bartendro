@@ -285,7 +285,7 @@ class RouterDriver(object):
             print "Ticks: %d for %d" % (dispenser, ticks)
             black = [ (0,0,0) ] * numLEDs
 	    pixels = [ (0,0,0) ] * numLEDs
-	    pixels[dispenser] = (0, 0, 255)
+	    pixels[dispenser] = (10, 127, 60)
 
 	    client.put_pixels(black)
 	    client.put_pixels(black)
