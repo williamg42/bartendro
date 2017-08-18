@@ -11,6 +11,7 @@ import pack7
 import dispenser_select
 from bartendro.error import SerialIOError
 import random
+import RPi.GPIO as GPIO
 
 DISPENSER_DEFAULT_VERSION = 2
 DISPENSER_DEFAULT_VERSION_SOFTWARE_ONLY = 3
@@ -18,7 +19,7 @@ DISPENSER_DEFAULT_VERSION_SOFTWARE_ONLY = 3
 BAUD_RATE       = 9600
 DEFAULT_TIMEOUT = 30 # in seconds
 
-MAX_DISPENSERS = 15
+MAX_DISPENSERS = 9
 SHOT_TICKS     = 20
 
 numLEDs = 9
@@ -281,17 +282,58 @@ class RouterDriver(object):
         return self._send_packet32(dispenser, PACKET_TIME_DISPENSE, duration)
 
     def dispense_ticks(self, dispenser, ticks, speed=255):
+	GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+	input_state = GPIO.input(18)
         if self.software_only: 
             print "Ticks: %d for %d" % (dispenser, ticks)
             black = [ (0,0,0) ] * numLEDs
+            red = [ (0,0,0) ] * numLEDs
 	    pixels = [ (0,0,0) ] * numLEDs
 	    pixels[dispenser] = (10, 255, 60)
+	    red[dispenser] = (255, 0, 0)
 
 	    client.put_pixels(black)
 	    client.put_pixels(black)
 	    sleep(0.001)
 	    client.put_pixels(pixels)
-            sleep(ticks/30)
+		
+            
+	    amountofliquid = ticks/SHOT_TICKS
+	    fullshots = int(round(amountofliquid))
+	    count = 0
+            while (count < fullshots):
+	       client.put_pixels(pixels)
+	       sleep(0.25)
+               while (GPIO.input(18) != 1):
+		  client.put_pixels(pixels)
+                  while (GPIO.input(18) != 1):
+		     sleep(0.01)
+		  count = count+1
+	       client.put_pixels(black)
+	       client.put_pixels(black)
+	       sleep(0.25)
+            print "full shots dispensed"
+
+	
+	    partialshotsleft = amountofliquid-fullshots
+	    ticksleft = partialshotsleft*SHOT_TICKS
+	    ticks = 0
+	    while (ticks < ticksleft):
+	       client.put_pixels(pixels)
+	       sleep(0.25)
+               while (GPIO.input(18) != 1 and ticks < ticksleft):
+		  client.put_pixels(pixels)
+		  sleep(0.1
+		  ticks = ticks+1
+	       client.put_pixels(black)
+	       client.put_pixels(black)
+	       sleep(0.25)
+            print "partial shot dispensed"
+	    while (GPIO.input(18) != 1):
+	       client.put_pixels(red)
+	       sleep(0.1)
+	    
+	
 	    client.put_pixels(black)
 	    client.put_pixels(black)
             print "Done" 
