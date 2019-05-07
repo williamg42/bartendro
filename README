@@ -16,3 +16,5 @@ tsb      -- legacy code from our old skool drink bot prototyp Tequila Sunrise Bo
 ui       -- web interface for the bot, written in python.
 
 These various subdirectories may contain more README and COPYING files.
+
+Overall updates added by William Gerhard were to change the design from automatically pouring the drinks to lighting up LEDs above the bottles to indication which ones you should dispense
